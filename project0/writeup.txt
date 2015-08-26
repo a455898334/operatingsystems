@@ -1,0 +1,23 @@
+Shan Shi
+CSC 1600
+
+Program:
+
+	#include <stdio.h>
+
+	int main(void){
+	    printf("Villanova Rules!");
+	    return 1;
+	}
+
+Output:
+	Villanova rules!
+
+Editor used:
+	Emacs
+
+Compiler:
+	gcc in Linux Mint 17
+
+Help from:
+	No one, I did this myself.
