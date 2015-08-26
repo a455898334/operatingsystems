@@ -2,5 +2,5 @@
 
 int main(void){
     printf("Villanova Rules!");
-    return 1;
+    return 0;
 }
