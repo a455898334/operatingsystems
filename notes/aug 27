@@ -1,0 +1,81 @@
+Computer systems can be divided into four components
+	hardware =provides basic computing resouirces
+		cpu, mem, io
+	operating system
+		controls and coordinates the use eof hardware among various appications and users
+	application programs - define the ways in which the system resources are sued to solve the computing problems of the users
+		word processors, compilers, web browsers, db systems, vidya
+	users
+		people machines, other computers
+
+user (compiler)			|
+user (word processor)	| system and application programs | operating systems | computer hardware
+user (database system)	|
+
+What do operating systems do
+	depends on your point of view
+	users want convenience, ease of use and good performance
+		don't care about resource utilization
+	but shared computer such as mainframe or minicomputer must keep all users happy
+	users of dedicated systems such as workstations have dedicatged resources but frequently use shared resources from servers
+	handheld computers are resource poor, optimized for usability and battery life
+	some comptuers have little or no user interface, such as embedded computers in devices and automobiles
+
+OS definition
+	os is a resource allocator
+		manages all resources
+		decides btwn conflicting requests for efficient and fair resource usse
+	os is a control program
+		controls execution of programs to prevent errors and improper use of the computer
+	no universally accepted definition
+	"everything a vendor ships when you order an os" is a good approximation
+	the one program running at all times on the computer is the KERNEL
+	everything else is either
+		a system program
+		or an application program
+
+computer startup
+	bootstrap program is loaded at powerup or reboot
+		typically stored in ROM or EPROM (also known as firmware)
+		initializes all aspects of system
+		loads operating system kernel and starts execution
+	computer-system operation
+		one or more cpus, device controllers connect through common bus providingg access to shared memory
+		concurrent execution of cpu and devices competing for mem cycles
+
+		io devices and the cpu can execute concurrently
+		each device controller is in charge of a particular device type
+		each device controller has a local buffer
+		cpu moves data to/from main mem to/from local buggers
+		io is from the device to local buffer of controller
+		device controller informs cpu that it has finished its operation by causing an interrupt
+			Interrupt transfers control to the interrupt service routine, generally thoguht the interrupt vector which contains the addresses of all the service routines
+			interruptm architecture must save the address of the interrupted instruction
+			a trap or execution is a software-generated interrupt caused by either an error or a user request
+			An operating system is interruptd driven
+				two types of interrupts
+					polling and vectored
+IO structure
+	after io starts control returns to user program ponly upon io completion
+		wait instruction idles the cpu until the next interrupt
+		wait loop
+		at most one io request is outstanding at a time no simultanewous io processiong
+	after io starts, control returns to an async state
+
+Storage structure
+	fast/cheap
+
+caching
+	info copied from slow storage to fast storage for operation
+
+Architecture
+	most system use single general-purpose processor
+	multiprocessors (parallel systems, coupleed systems)
+		increased throughput
+		economy of scale
+		increased reliability
+	two types
+		asym multiprocessing
+		symmetric multiprocessing
+
+old school cores were wires attached to circle magnets

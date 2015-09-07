@@ -1,0 +1,23 @@
+operating systems provide an enviornment for execution of programs and services to programs and users
+one set of operating system services provides functions that are helpful to the user
+	user interface
+		cli, gui, batch (punch cards)
+	program execution
+		the system must be able to load a program into memory and to run that program, end execution, either normally or abnormally (errro)
+	io operations
+		a runnign program may require io, which may involve a file or an io device
+one set of operating system services provides functions that are helpful to the user
+	file system manipulation
+		write files, make directiories etc
+	communications
+		tthrough networks/with other processes
+	error detection
+		need to be wary of errors at all times
+CLI
+	implemented in kernel, sometimes by sys program
+	sometimes implemented as shell
+	primarily fetches a command from user and executes it
+	sometimes commands built-in, csometimes just names of progvrams
+
+Cygwin commands
+	same as all unix and linux systems

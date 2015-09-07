@@ -1,0 +1,110 @@
+An operating system is a resource allocator and a control program
+registers cache mainmemory ssd hdd opticaldisk magnetic tape
+
+clustered systems
+	like multiprocessor systems but with multiple systems working together
+		usually sharing strage via a storage-area network (SAN)
+		provides high-availability service which survives failures
+			asym clustering has one machine in hot standby mode
+			symm clustering has multiple nodes running applications monitoring each other
+		some clusters are for high performace computing (HPC)
+			applications must be written to use parallelization
+
+computer -- computer -- computer
+	   \		|          /
+	   storage area network
+
+multiprogramming (batch system) needed for efficiency
+	single user cannot keep cpu and io devices busy at all times
+	multiprogramming organizes jobs so cpu always has one to execute
+	subset of total jobs in sys is kept in memory (if there are a lot of jobs)
+	one job selected and run via job scheduling
+
+timesharing is logical extension in which cpu switches jobs so frequently that users can interact with each job while its running, creating interactive computing
+	response time should be <1 sec
+	each user has at least one program executing in memory -> process
+	if several jobs readyu to run at the same time -> cpu scheduling
+	if processes don't fit in memory, swapping moves them in and out
+	virtual memory allows execution of processes not completely in memory
+
+interrupt driven
+	hardware interrupt by oen of the devices
+		count the systen timer as such a device
+		disc controllers, keyboards, etc
+	software interrupt
+		?? ???
+
+dual mode operation allows os to protect itself and other system components
+	user mode and kernel mode
+	mode bit provided byh hardware
+		provides ability to distinguish when sys is running user code or kernel code
+		some instr designated as privileged only executable in kernel mode
+		syst call changes mode to kernel return from call resets to user
+	increasingly cpus support multi mode operation
+		virtual machines and shit
+
+timer to prevent infinite loop process hogging resources
+	timer is set to interrupt the computer after some time period
+	keep a counter that is decremented by the physical clock
+	operating system sets the counter privileged instruction
+
+
+user make ssystem call, and the mode bit is set to zero
+	the system executes the call
+	when the system is done, the mode bit is set back to 1
+user regains control of the system
+
+a process is a program in execution. it is a unit of whork within the system program is a passive entity, process is an active entity
+single threaded processes has one program counter specifying the location of the next instruction to teecute
+multi threaded process haxs one program counter per thread
+
+the operating system is responsible fro the following activities in connection with process management
+	creating and deleting both user and system processes
+	suspending and resuming processes
+	provide mechanisms for process sync
+	provide mechanisms for process comm
+	provide mechanisms for deadlock (when mahcines want exclusive access to things and everyone ends up waiting for everyone else) handling
+
+memory management
+	to execute a program, all or some of the instructions must be in memory
+	all or part of the data thatq is needed by the program must be in memory
+	need to use the cpu to keep memory open enough for processes
+
+storage management
+	manage filesystem for long term storage
+	allocate memory but less CPU intensive
+
+COHERENCE
+	making sure everything stays in sync on all levels of the strage heirarchy
+	cache needs to stay coherent in multiprocessors
+	distributed systems need to stay in sync
+
+protection and security
+	protection
+		any mech for controlling access of processes or users to resources defined by the os
+	security
+		preventing internal and external attacks
+	systems generally distinguish among users and give them different access rights
+
+linked lists
+	single linked lists
+		only push and pop
+
+	doubly linked lists
+		go in both directions
+
+	circularly linked lists
+		the last in the list links to the first one
+		round robin scheduling (puff puff pass)
+
+computing environments
+	networks
+		LAN WAN MAN PAN
+	P2P
+		torrent, skype
+	virtualization
+		vagrant stuff
+	cloud computing
+		AWS elastic beanstalk shit
+	real time embedded systems
+		pacemakers and stuff
