@@ -1,0 +1,190 @@
+Shan Shi
+CSC-1600
+Project 1
+9/8/2015
+
+Code:
+	/**
+	 *  CSC-1600 Operating Systems
+	 *  Project 1
+	 *  arrayOfStrings.h
+	 *  Shan Shi
+	 */
+
+	#ifndef arrayOfStrings_h
+	#define arrayOfStrings_h
+
+	#include <stdio.h>
+	#include <stdlib.h>
+
+	void InitializeArray(char *array[], int n);
+	void InsertStringAt(char *array[], char *s, int pos);
+	void RemoveStringAt(char *array[], int pos);
+	void RemoveAll(char *array[], int n);
+
+	void Print(char *array[], int pos);
+	void PrintAll(char *array[], int n);
+
+	#endif
+
+	======================================================================
+
+	/**
+	 *  CSC-1600 Operating Systems
+	 *  Project 1
+	 *  arrayOfStrings.c
+	 *  Shan Shi
+	 */
+
+	#include "arrayOfStrings.h"
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <string.h>
+	#define MAXARRAYSIZE 15
+
+	void InitializeArray(char *array[], int n){
+	    for(int i = 0; i < n; i++){
+	        array[i] = NULL;
+	    }
+	}
+
+	void InsertStringAt(char *array[], char *s, int pos){
+	    if(s != NULL){
+	        array[pos] = malloc(strlen(s));
+	        strcpy(array[pos],s);
+	    }
+	}
+
+	void RemoveStringAt(char *array[], int pos){
+	    if(array[pos]!=NULL){
+	        free(array[pos]);
+	        array[pos] = NULL;
+	    }
+	}
+
+	void RemoveAll(char *array[], int n){
+	    for(int i = 0; i < n; i++){
+	        RemoveStringAt(array, i);
+	    }
+	}
+
+	void Print(char *array[], int pos){
+	    if(array[pos] != NULL){
+	        printf("%s",array[pos]);
+	    }else{
+	        printf("[%d]", pos); // prints [pos] if the string is empty
+	    }
+	}
+
+	void PrintAll(char *array[], int n){
+	    for(int i = 0; i < n; i++){
+	        Print(array, i);
+	    }
+	}
+
+	======================================================================
+
+	/**
+	 *  CSC-1600 Operating Systems
+	 *  Project 1
+	 *  arrayOfStringsTest.c
+	 *  Shan Shi
+	 */
+
+	#include "arrayOfStrings.h"
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <string.h>
+	#define MAXARRAYSIZE 15
+
+
+	int main(){
+	    printf("Test 1: \n");
+	    char *myarray[MAXARRAYSIZE];
+	    InitializeArray(myarray, MAXARRAYSIZE);
+	    PrintAll(myarray, MAXARRAYSIZE);
+	    // expect [0][1][2][3][4][5][6][7][8][9][10][11][12][13][14]
+
+	    printf("\n\nTest 2:\n");
+	    char s[]="Lincoln";
+	    InsertStringAt(myarray, s, 0);
+	    PrintAll(myarray,MAXARRAYSIZE);
+	    // expect Lincoln[1][2][3][4][5][6][7][8][9][10][11][12][13][14]
+
+	    printf("\n\nTest 3:\n");
+	    InsertStringAt (myarray, "Lincoln", 7);
+	    PrintAll(myarray, MAXARRAYSIZE); // should list Lincoln only
+	    // expect Lincoln[1][2][3][4][5][6]Lincoln[8][9][10][11][12][13][14]
+
+	    printf("\n\nTest 4:\n");
+	    RemoveStringAt(myarray, 0);
+	    RemoveStringAt(myarray, 7);
+	    PrintAll(myarray, MAXARRAYSIZE); // should list nothing
+	    // expect [0][1][2][3][4][5][6][7][8][9][10][11][12][13][14]
+
+	    printf("\n\nTest 5:\n");
+	    InsertStringAt (myarray, "Manny", 0);
+	    InsertStringAt (myarray, "Jack", 1);
+	    InsertStringAt (myarray, "Moe", 2);
+	    PrintAll(myarray, MAXARRAYSIZE); // list Manny, Moe, and Jack
+	    //expect MannyJackMoe[3][4][5][6][7][8][9][10][11][12][13][14]
+
+	    printf("\n\nTest 6:\n");
+	    RemoveStringAt(myarray, 1); // Remove Jack
+	    PrintAll(myarray, MAXARRAYSIZE); // list Manny and Jack. No Moe
+	    // expect Manny[1]Moe[3][4][5][6][7][8][9][10][11][12][13][14]
+
+	    printf("\n\nTest 7:\n");
+	    RemoveAll(myarray, MAXARRAYSIZE); // Remove Manny and Jack
+	    PrintAll(myarray, MAXARRAYSIZE); // list should be empty
+	    //expect [0][1][2][3][4][5][6][7][8][9][10][11][12][13][14]
+
+	    // compiles with warnings
+	    printf("\n\nTest 8:\n");
+	    InitializeArray(myarray, NULL);
+	    InsertStringAt(myarray, NULL, NULL);
+	    RemoveStringAt(myarray, NULL);
+	    RemoveAll(myarray, NULL);
+	    PrintAll(myarray, MAXARRAYSIZE); // list should be empty
+	    //expect [0][1][2][3][4][5][6][7][8][9][10][11][12][13][14]
+
+	    printf("\n"); // so the shell is clean
+	    return 0;
+	}
+
+
+
+Output from program (printing out [pos] for empty strings so it's easier to see what's happening):
+	Test 1:
+	[0][1][2][3][4][5][6][7][8][9][10][11][12][13][14]
+
+	Test 2:
+	Lincoln[1][2][3][4][5][6][7][8][9][10][11][12][13][14]
+
+	Test 3:
+	Lincoln[1][2][3][4][5][6]Lincoln[8][9][10][11][12][13][14]
+
+	Test 4:
+	[0][1][2][3][4][5][6][7][8][9][10][11][12][13][14]
+
+	Test 5:
+	MannyJackMoe[3][4][5][6][7][8][9][10][11][12][13][14]
+
+	Test 6:
+	Manny[1]Moe[3][4][5][6][7][8][9][10][11][12][13][14]
+
+	Test 7:
+	[0][1][2][3][4][5][6][7][8][9][10][11][12][13][14]
+
+	Test 8:
+	[0][1][2][3][4][5][6][7][8][9][10][11][12][13][14]
+
+
+Compiler:
+	gcc on Linux Mint
+
+Editor:
+	Sublime Text 3
+
+Received Help From:
+	James Kelly
