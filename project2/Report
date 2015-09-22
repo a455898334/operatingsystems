@@ -1,0 +1,147 @@
+/**
+ *  CSC-1600 Operating Systems
+ *  Project 2
+ *  myshell.c
+ *  Shan Shi
+ */
+
+#include "arrayOfStrings.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_CMD 1000
+#define MAX_PATHS 1000
+
+int main(){
+
+    const char delim[1] = " ";  // delimeter
+
+    /* As shown in class */
+    char * searchpaths[MAX_PATHS];
+    int numpaths = 0; // number of directories in path
+    char cmd[MAX_CMD];
+
+    SaveSearchPaths(searchpaths, MAX_PATHS, (int *) &numpaths);
+    /* End of code from classes */
+
+    while(1){
+        printf("myshell > ");
+        fflush(stdout);
+        fgets(cmd, MAX_CMD, stdin); // get user command
+        fflush(stdout);
+        char * token;
+
+        /* count the number of arguments (incl the command itself) */
+        int num_args = 0;
+        token = strtok(cmd, delim); // tokenize the input with spaces
+        while(token != NULL){
+            token = strtok(NULL, delim); // gets the next token in the tokenized string
+            num_args += 1;
+        }
+
+        /* tokenize the entry with spaces */
+        token = strtok(cmd, delim);
+        if(strncmp(cmd, "quit", 5) == 0 || strncmp(cmd, "exit", 5) == 0){ // using 5 so commands like "pathogen" won't validate as path
+            if(num_args == 1){  // if the entry was just "quit" or "exit" with nothing following it
+                exit(0);
+            }else{
+                printf("%s doesn't take arguments.\n", cmd);
+            }
+        }else if(strncmp(cmd, "help", 5) == 0){ // using else if so the program doesn't have to run through all checks every time
+            if(num_args == 1){
+                printf("No help is available\n");
+            }else{
+                printf("%s doesn't take arguments.\n", cmd);
+            }
+        }else if(strncmp(cmd, "path", 5) == 0){
+            if(num_args == 1){
+                PrintAll(searchpaths, numpaths);
+            }else{
+                printf("%s doesn't take arguments.\n", cmd);
+            }
+        }else{
+            printf("That's not the command you're looking for.\n");
+        }
+    }
+    return 0;
+}
+
+=============================================================
+
+/**
+ *  CSC-1600 Operating Systems
+ *  Project 2
+ *  SaveSearchPaths.c
+ *  Shan Shi
+ */
+
+#include "arrayOfStrings.h"
+
+#include <stdlib.h>
+#include <string.h>
+
+/* Take the path variable, tokenize it with :, and store the tokens in search_paths, also store the length in num_paths */
+void SaveSearchPaths(char * search_paths[], int max_paths, int * num_paths){
+	const char delim[1] = ":"; // delimeter is :
+	char * token;
+	int curr_pos = 0;
+	token = strtok(getenv("PATH"), delim); // get the PATH and tokenize it with :
+
+	InitializeArray(search_paths, max_paths);
+
+	while(token != NULL){
+		InsertStringAt(search_paths, token, curr_pos);
+		token = strtok(NULL, delim); // get the next token in the tokenized string
+		curr_pos += 1;
+	}
+
+	*num_paths = curr_pos; // set the num_paths variable in the scope this was called
+}
+
+=============================================================
+
+Script started on Mon 21 Sep 2015 10:00:11 PM EDT
+shan@fourteenth ~/code/operatingsystems/project2 $ gcc --std=c99 myshell.c SaveSearchPaths.c arrayOfStrings.c arrayOfStrings.h
+shan@fourteenth ~/code/operatingsystems/project2 $ ./a.out
+myshell > help
+No help is available
+myshell > helpme
+That's not the command you're looking for.
+myshell > help me
+help doesn't take arguments.
+myshell > path
+/usr/local/share/npm/lib/node_modules/grunt-cli/bin
+/usr/local/sbin
+/usr/local/bin
+/usr/sbin
+/usr/bin
+/sbin
+/bin
+/usr/games
+/usr/local/games
+/home/shan/code/splash/vendor/bin
+myshell > pathogen
+That's not the command you're looking for.
+myshell > path ogen
+path doesn't take arguments.
+myshell > quit
+shan@fourteenth ~/code/operatingsystems/project2 $ ./a.out
+myshell > wowowowowow
+That's not the command you're looking for.
+myshell > exit
+shan@fourteenth ~/code/operatingsystems/project2 $ exit
+exit
+Script done on Mon 21 Sep 2015 10:05:21 PM EDT
+
+=============================================================
+
+Editor: Sublime Text 3
+Compiler: gcc on Linux Mint in c99 mode
+
+=============================================================
+
+I received help from James Kelly in correcting my understanding of what the project instructions mean
+I used a few lines of code presented in class, as noted in comments
+

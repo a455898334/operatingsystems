@@ -1,0 +1,55 @@
+system programs
+	file system management
+	file modification
+	system stats
+	programming language supports
+	communications
+	program execution
+	background services
+	application programs
+
+simple structure [msdos]
+	written to provide the most functionality in the least space
+		not divided into modules
+		although msdos has some structure, its interfaces and levels of functionality are not well separated
+
+	application program
+	resident system rpogram
+	msdos device drivers
+	rom bios device drivers
+
+Non simple structure [UNIX]
+	limited by hardware functionality
+	two separate parts
+		systems programs
+		kernel
+
+	users
+	===
+	shells and commands
+	compilers and interpreters
+	system libraries
+	===
+	system call interface
+	---
+	kernel
+		signal terminal handling
+		io system
+		terminal drivers
+		file system
+		swapping blocks
+		disk
+		etc
+	---
+	kernel interface to hardware
+	===
+	hardware
+
+Layered approach
+	the operating ysstem is diviced into a number of layers, each built on top of lower layers. the bottom layer is the hw, the top layer is the UIUX
+
+Microkernel
+	make kernel as simple as possible
+	the FS, apps, and drivers are all separate from the microkernel
+	the microkernel just relays messages back and forth and does essential stuff (cpu sched, mem mgmt)
+	b

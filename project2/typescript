@@ -1,0 +1,13 @@
+Script started on Mon 21 Sep 2015 10:05:11 PM EDT
+[01;32mshan@fourteenth[01;34m ~/code/operatingsystems/project2 $[00m penis 
+penipenis: command not found
+[01;32mshan@fourteenth[01;34m ~/code/operatingsystems/project2 $[00m penis
+penis: command not found
+[01;32mshan@fourteenth[01;34m ~/code/operatingsystems/project2 $[00m wwww
+No command 'wwww' found, did you mean:
+ Command 'dwww' from package 'dwww' (universe)
+wwww: command not found
+[01;32mshan@fourteenth[01;34m ~/code/operatingsystems/project2 $[00m exit
+exit
+
+Script done on Mon 21 Sep 2015 10:05:21 PM EDT
