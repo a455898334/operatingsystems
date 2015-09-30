@@ -12,6 +12,7 @@
 #include <stdlib.h>
 
 void SaveSearchPaths(char * search_paths[], int max_paths, int * num_paths);
+void mySystem(char * command[], int num_args, char *searchpaths[], int numpaths);
 
 void InitializeArray(char *array[], int n);
 void InsertStringAt(char *array[], char *s, int pos);
