@@ -1,13 +1,59 @@
-Script started on Mon 21 Sep 2015 10:05:11 PM EDT
-[01;32mshan@fourteenth[01;34m ~/code/operatingsystems/project2 $[00m penis 
-penipenis: command not found
-[01;32mshan@fourteenth[01;34m ~/code/operatingsystems/project2 $[00m penis
-penis: command not found
-[01;32mshan@fourteenth[01;34m ~/code/operatingsystems/project2 $[00m wwww
-No command 'wwww' found, did you mean:
- Command 'dwww' from package 'dwww' (universe)
-wwww: command not found
+Script started on Wed 30 Sep 2015 10:56:29 PM EDT
+[01;32mshan@fourteenth[01;34m ~/code/operatingsystems/project2 $[00m exit./a.outgcc --std=c99 myshell.c SaveSeearchPaths.c arrayOfStrings.c arrayOfStrings.h mySystem.c
+[01;32mshan@fourteenth[01;34m ~/code/operatingsystems/project2 $[00m gcc --std=c99 myshell.c SaveSeearchPaths.c arrayOfStrings.c arrayOfStrings.h mySystem.c[Aexit[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C./a.outgcc --std=c99 myshell.c SaveSeearchPaths.c arrayOfStrings.c arrayOfStrings.h mySystem.c[A./a.out[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+myshell > path
+/usr/local/share/npm/lib/node_modules/grunt-cli/bin
+/usr/local/sbin
+/usr/local/bin
+/usr/sbin
+/usr/bin
+/sbin
+/bin
+/usr/games
+/usr/local/games
+/home/shan/code/splash/vendor/bin
+myshell > ls
+a.out		  arrayOfStrings.h.gch	Report
+arrayOfStrings.c  myshell.c		SaveSearchPaths.c
+arrayOfStrings.h  mySystem.c		typescript
+myshell > pwd
+/home/shan/code/operatingsystems/project2
+myshell > date
+Wed Sep 30 22:58:28 EDT 2015
+myshell > echo a hey   boo   foobar
+foobar
+myshell > vi
+[?1049h[?1h=[1;24r[?12;25h[?12l[?25h[27m[m[H[2J[?25l[2;1H[1m[34m~                                                                               [3;1H~                                                                               [4;1H~                                                                               [5;1H~                                                                               [6;1H~                                                                               [7;1H~                                                                               [8;1H~                                                                               [9;1H~                                                                               [10;1H~                                                                               [11;1H~                                                                               [12;1H~                                                                               [13;1H~                                                                               [14;1H~                                                                               [15;1H~                                                                               [16;1H~                                                                               [17;1H~                                                                               [18;1H~                                                                               [19;1H~                                                                               [20;1H~                                                                               [21;1H~                                                                               [22;1H~                                                                               [23;1H~                                                                               [m[4;32HVIM - Vi IMproved[6;34Hversion 7.4.52[7;29Hby Bram Moolenaar et al.[8;13HModified by pkg-vim-maintainers@lists.alioth.debian.org[9;19HVim is open source and freely distributable[11;26HHelp poor children in Uganda![12;18Htype  :help iccf[34m<Enter>[m       for information [14;18Htype  :q[34m<Enter>[m               to exit         [15;18Htype  :help[34m<Enter>[m  or  [34m<F1>[m  for on-line help[16;18Htype  :help version7[34m<Enter>[m   for version info[18;26HRunning in Vi compatible mode[19;18Htype  :set nocp[34m<Enter>[m        for Vim defaults[20;18Htype  :help cp-default[34m<Enter>[m for info on this[1;1H[?12l[?25h[?25l[24;1H:[?12l[?25hq[?25l[24;1H[K[24;1H[?1l>[?12l[?25h[?1049lmyshell > vim  Report
+[?1049h[?1h=[1;24r[?12;25h[?12l[?25h[27m[m[H[2J[?25l[24;1H"Report" 147 lines, 4337 characters[1;1H/**
+ *  CSC-1600 Operating Systems
+ *  Project 2
+ *  myshell.c
+ *  Shan Shi
+ */
+
+#include "arrayOfStrings.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_CMD 1000
+#define MAX_PATHS 1000
+
+int main(){[19;5Hconst char delim[1] = " ";  // delimeter[21;5H/* As shown in class */
+    char * searchpaths[MAX_PATHS];
+    int numpaths = 0; // number of directories in path[1;1H[?12l[?25h
+
+[2;1H[1;1H/*[?25l[24;1H[K[24;1H:[?12l[?25hq[?25l[24;1H[K[24;1H[?1l>[?12l[?25h[?1049lmyshell > exit    
+myshell > exit    e  d Report
+4337
+
+?
+q
+myshell > exit
 [01;32mshan@fourteenth[01;34m ~/code/operatingsystems/project2 $[00m exit
 exit
 
-Script done on Mon 21 Sep 2015 10:05:21 PM EDT
+Script done on Wed 30 Sep 2015 11:00:59 PM EDT
