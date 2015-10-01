@@ -38,7 +38,7 @@ int main(){
 
             token = strtok(cmd, delim); // tokenize the input with spaces
 
-            InitializeArray(command_array, MAX_CMD);
+            InitializeArray(command_array, MAX_CMD); // the command gets tokenized into an array outside and is pased in
             while(token != NULL){
                 InsertStringAt(command_array, token, num_args);
                 token = strtok(NULL, delim); // gets the next token in the tokenized string
@@ -51,20 +51,14 @@ int main(){
                 }else{
                     printf("%s doesn't take arguments.\n", command_array[0]);
                 }
-            // }else if(strncmp(command_array[0], "help", 5) == 0){ // using else if so the program doesn't have to run through all checks every time
-            //     if(num_args == 1){
-            //         printf("No help is available\n");
-            //     }else{
-            //         printf("%s doesn't take arguments.\n", command_array[0]);
-            //     }
-            }else if(strncmp(command_array[0], "path", 5) == 0){
+            }else if(strncmp(command_array[0], "path", 5) == 0){ // print all the paths
                 if(num_args == 1){
                     PrintAll(searchpaths, numpaths);
                 }else{
                     printf("%s doesn't take arguments.\n", command_array[0]);
                 }
             }else{
-                mySystem(command_array, num_args, searchpaths, numpaths);
+                mySystem(command_array, num_args, searchpaths, numpaths); // goes through the system paths and tries to run the command in all of them
             }
         }
     }

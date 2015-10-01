@@ -1,0 +1,188 @@
+/**
+ *  CSC-1600 Operating Systems
+ *  Project 2
+ *  myshell.c
+ *  Shan Shi
+ */
+
+#include "arrayOfStrings.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_CMD 1000
+#define MAX_PATHS 1000
+
+int main(){
+
+    const char delim[1] = " ";  // delimeter
+
+    /* As shown in class */
+    char * searchpaths[MAX_PATHS];
+    int numpaths = 0; // number of directories in path
+    char cmd[MAX_CMD];
+
+    SaveSearchPaths(searchpaths, MAX_PATHS, (int *) &numpaths);
+    /* End of code from classes */
+
+    while(1){
+        char * token;
+        int num_args = 0;
+        char * command_array[MAX_CMD];
+
+        printf("myshell > ");
+        fgets(cmd, MAX_CMD, stdin); // get user command
+
+        if(strcmp(cmd,"\n")){
+
+            token = strtok(cmd, delim); // tokenize the input with spaces
+
+            InitializeArray(command_array, MAX_CMD); // the command gets tokenized into an array outside and is pased in
+            while(token != NULL){
+                InsertStringAt(command_array, token, num_args);
+                token = strtok(NULL, delim); // gets the next token in the tokenized string
+                num_args += 1;
+            }
+
+            if(strncmp(command_array[0], "quit", 5) == 0 || strncmp(command_array[0], "exit", 5) == 0){ // using 5 so commands like "pathogen" won't validate as path
+                if(num_args == 1){  // if the entry was just "quit" or "exit" with nothing following it
+                    exit(0);
+                }else{
+                    printf("%s doesn't take arguments.\n", command_array[0]);
+                }
+            }else if(strncmp(command_array[0], "path", 5) == 0){ // print all the paths
+                if(num_args == 1){
+                    PrintAll(searchpaths, numpaths);
+                }else{
+                    printf("%s doesn't take arguments.\n", command_array[0]);
+                }
+            }else{
+                mySystem(command_array, num_args, searchpaths, numpaths); // goes through the system paths and tries to run the command in all of them
+            }
+        }
+    }
+    return 0;
+}
+
+----------------------------------------------------------------
+
+/**
+ *  CSC-1600 Operating Systems
+ *  Project 2
+ *  mySystem.c
+ *  Shan Shi
+ */
+
+#include "arrayOfStrings.h"
+
+#include <unistd.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+#include <string.h>
+
+/* Take an unknown shell command from myshell and try to run that command in the system */
+void mySystem(char * command[], int num_args, char *searchpaths[], int numpaths){
+	int pID = fork(); // fork a child so execv can repace the running code of the child
+	if(pID == 0){ // if this is the child
+		for(int i = 0; i < numpaths; i++){ // try all of the paths
+			/* (copied from lab instructions) creates the string [path]/[command]  */
+			char * fullcmd = malloc(strlen(searchpaths[i] + strlen(command[0]) + 2));
+			sprintf(fullcmd, "%s/%s", searchpaths[i], command[0]);
+			// if the command runs, the child process is replaced by the system command, and will die naturally
+			execv(fullcmd, command);
+			// if the command fails, free the child and loop back again
+			free(fullcmd);
+			/* end of copied code */
+		}
+		// if none of the paths have run, the command is not known, tell the user that and kill the chold
+		printf("Unknown command.\n");
+		exit(0);
+	}
+	wait(NULL);//the parent will wait for the child to finish before going back
+}
+
+----------------------------------------------------------------
+
+/**
+ *  CSC-1600 Operating Systems
+ *  Project 2
+ *  SaveSearchPaths.c
+ *  Shan Shi
+ */
+
+#include "arrayOfStrings.h"
+
+#include <stdlib.h>
+#include <string.h>
+
+/* Take the path variable, tokenize it with :, and store the tokens in search_paths, also store the length in num_paths */
+void SaveSearchPaths(char * search_paths[], int max_paths, int * num_paths){
+	const char delim[1] = ":"; // delimeter is :
+	char * token;
+	int curr_pos = 0;
+	token = strtok(getenv("PATH"), delim); // get the PATH and tokenize it with :
+
+	InitializeArray(search_paths, max_paths);
+
+	while(token != NULL){
+		InsertStringAt(search_paths, token, curr_pos);
+		token = strtok(NULL, delim); // get the next token in the tokenized string
+		curr_pos += 1;
+	}
+
+	*num_paths = curr_pos; // set the num_paths variable in the scope this was called
+}
+
+----------------------------------------------------------------
+
+
+Script started on Wed 30 Sep 2015 10:56:29 PM EDT
+shan@fourteenth ~/code/operatingsystems/project2 $ gcc --std=c99 myshell.c SaveSearchPaths.c arrayOfStrings.c arrayOfStrings.h mySystem.c
+shan@fourteenth ~/code/operatingsystems/project2 $ ./a.out
+myshell > path
+/usr/local/share/npm/lib/node_modules/grunt-cli/bin
+/usr/local/sbin
+/usr/local/bin
+/usr/sbin
+/usr/bin
+/sbin
+/bin
+/usr/games
+/usr/local/games
+/home/shan/code/splash/vendor/bin
+myshell > ls
+a.out		  arrayOfStrings.h.gch	Report
+arrayOfStrings.c  myshell.c		SaveSearchPaths.c
+arrayOfStrings.h  mySystem.c		typescript
+myshell > pwd
+/home/shan/code/operatingsystems/project2
+myshell > date
+Wed Sep 30 22:58:28 EDT 2015
+myshell > echo foobar
+foobar
+myshell >
+myshell > foobar
+Unknown command.
+myshell > ed Report
+4337
+
+?
+q
+myshell > exit
+shan@fourteenth ~/code/operatingsystems/project2 $ exit
+exit
+
+Script done on Wed 30 Sep 2015 11:00:59 PM EDT
+
+----------------------------------------------------------------
+
+Compiler: gcc on Linux Mint 17
+Editor: Sublime Text 3
+
+----------------------------------------------------------------
+
+I worked with James Kelly and he pointed me in a few right directions with understanding the requirements of the lab.
+
+----------------------------------------------------------------
+
