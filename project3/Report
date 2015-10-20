@@ -1,0 +1,135 @@
+/**
+ *  CSC-1600 Operating Systems
+ *  Project 3
+ *  main.c
+ *  Shan Shi
+ */
+
+#include "CrossProductPJM.h"
+#define NUMTHREADS 744 // also the number of lines to read
+
+// takes numbers at locations 3-8 in a PJM data file and computes the cross product using threads
+int main(void){
+	PJMData pjm;
+	FILE *fp = fopen("data", "r"); // open the file called data
+	pjm.fp = fp; // save the file to the shared struct
+	pjm.busy = 0; // initialize busy to false
+
+	pthread_t allThreads[NUMTHREADS]; // declare one thread per line
+
+	for(int i = 0; i < NUMTHREADS; i++){
+		// initialize each thread with the getCrossProduct function and pjm as parameter
+		pthread_create(&allThreads[i], NULL, (void *) &getCrossProduct, (void *) &pjm);
+	}
+
+	for(int i = 0; i < NUMTHREADS; i++){
+		// the threads run while main waits to clean up resources
+		pthread_join(allThreads[i], NULL);
+	}
+
+	// print the 6x6 matrix out in scientific notation
+	for(int i = 0; i < 6; i++){
+		for(int j = 0; j < 6; j++){
+			printf("%e  ", pjm.XX[i][j]);
+		}
+		printf("\n");
+	}
+	printf("Thread count: %d\n", NUMTHREADS);
+}
+
+=================================================
+
+/**
+ *  CSC-1600 Operating Systems
+ *  Project 3
+ *  getCrossProduct.c
+ *  Shan Shi
+ */
+
+#include "CrossProductPJM.h"
+
+// ptr is type PJM, which contains a pointer to the file and the 6x6 matrix
+// takes the next line from the file, calculates the cross product, and stores it into XX
+void getCrossProduct(void *ptr){
+	// turn the ptr back into PJMData
+	PJMData *pd;
+	pd = (PJMData *) ptr;
+
+	// get the next line from the file and store it into line[]
+	char line[200];
+	fgets(line, 200, pd->fp);
+
+	// parse the six numbers from the next line in the file (%*s means a string whose value we don't care about)
+	float X[6];
+	sscanf(
+		line,
+		"%*s   %*s   %f   %f   %f   %f   %f   %f   %*i   %*f   %*f   %*f   %*f   %*f",
+		&X[0], &X[1], &X[2], &X[3], &X[4], &X[5]
+	);
+
+	// loop through, calculate the cross product, and add it to the 6x6 matrix passed in with ptr
+	for(int i = 0; i < 6; i++){
+		for(int j = 0; j < 6; j++){
+			while(pd->busy); // busy wait while another thread is writing to memory
+			pd->busy = 1;
+			pd->XX[i][j] += X[i] * X[j];
+			pd->busy = 0;
+		}
+	}
+
+	// exit the thread
+	pthread_exit(0);
+}
+
+=================================================
+
+/**
+ *  CSC-1600 Operating Systems
+ *  Project 3
+ *  CrossProductPJM.h
+ *  Shan Shi
+ */
+
+#include <stdio.h>
+#include <pthread.h>
+
+#ifndef CrossProductJPM_H
+#define CrossProductJPM_H
+
+typedef struct PJMData{
+	FILE *fp; // pointer to file
+	double XX[6][6]; // 6x6 matrix to contain the end cross product
+	int busy; // mutex
+} PJMData;
+
+void getCrossProduct(void *ptr);
+
+#endif
+
+=================================================
+
+Script started on Tue 20 Oct 2015 03:22:50 AM EDT
+shan@fourteenth ~/code/operatingsystems/project3 $ gcc -pthread -std=c99 main.c CrossProductPJM.h getCrossProduct.c && ./a.out
+3.929736e+08  1.823431e+07  4.996416e+07  2.597512e+07  2.987756e+08  3.929736e+08  
+1.823431e+07  2.076207e+06  2.801883e+06  1.443149e+05  1.321306e+07  1.823431e+07  
+4.996416e+07  2.801883e+06  1.266803e+07  2.985520e+06  3.150260e+07  4.996416e+07  
+2.597512e+07  1.443149e+05  2.985520e+06  3.063549e+06  1.977782e+07  2.597512e+07  
+2.987756e+08  1.321306e+07  3.150260e+07  1.977782e+07  2.342669e+08  2.987756e+08  
+3.929736e+08  1.823431e+07  4.996416e+07  2.597512e+07  2.987756e+08  3.929736e+08  
+Thread count: 744
+shan@fourteenth ~/code/operatingsystems/project3 $ exit
+exit
+
+Script done on Tue 20 Oct 2015 03:23:16 AM EDT
+
+Each line of the input file has its own thread for processing a cross product. Once that's done, the thread adds the cross product into the shared 6x6 matrix.
+
+=================================================
+
+Editor: Sublime Text 3
+Compiler: gcc on Linux Mint in c99 mode
+
+=================================================
+
+I worked with James on this in trying to figure out what the requirements for the lab is.
+This lab introduced a lot of new concepts and it was really confusing for us to understand what it is asking for.
