@@ -12,7 +12,9 @@
 int main(void){
 	PJMData pjm;
 	FILE *fp = fopen("data", "r"); // open the file called data
+	FILE *fp2 = fopen("dataout", "w+"); // open the file called dataout for writing
 	pjm.fp = fp; // save the file to the shared struct
+	pjm.fp2 = fp2; // save the file to the shared struct
 	pjm.busy = 0; // initialize busy to false
 
 	pthread_t allThreads[NUMTHREADS]; // declare one thread per line
