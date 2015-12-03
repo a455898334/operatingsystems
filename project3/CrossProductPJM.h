@@ -13,6 +13,7 @@
 
 typedef struct PJMData{
 	FILE *fp; // pointer to file
+	FILE *fp2; // pointer to outfile
 	double XX[6][6]; // 6x6 matrix to contain the end cross product
 	int busy; // mutex
 } PJMData;
