@@ -4,7 +4,6 @@
  *  main.c
  *  Shan Shi
  */
-
 #include "CrossProductPJM.h"
 #define NUMTHREADS 744 // also the number of lines to read
 

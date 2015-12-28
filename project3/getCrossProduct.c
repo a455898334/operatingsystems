@@ -29,8 +29,8 @@ void getCrossProduct(void *ptr){
 
 	// loop through, calculate the cross product, and add it to the 6x6 matrix passed in with ptr
 	l1 = (long) &pd/4096; // page number for the current program
-	l2 = (long) &XX[0][0]/4096; // page number for XX
-	
+	l2 = (long) &(pd->XX)[0][0]/4096; // page number for XX 	
+
 	for(int i = 0; i < 6; i++){
 		for(int j = 0; j < 6; j++){
 			while(pd->busy); // busy wait while another thread is writing to memory
@@ -38,10 +38,10 @@ void getCrossProduct(void *ptr){
 			pd->XX[i][j] += X[i] * X[j];
 			l3 = (long) &X[i]/4096; // page number of X[i]
 			l4 = (long) &X[j]/4096; // page number of X[j]
-			fprint(fp2,"%d", l1); // prints l1 to fp2 file
-			fprint(fp2,"%d", l2); // prints l2 to fp2 file
-			fprint(fp2,"%d", l3); // prints l3 to fp2 file
-			fprint(fp2,"%d", l4); // prints l4 to fp2 file
+			fprintf(pd->fp2,"%ld\n", l1); // prints l1 to fp2 file
+			fprintf(pd->fp2,"%ld\n", l2); // prints l2 to fp2 file
+			fprintf(pd->fp2,"%ld\n", l3); // prints l3 to fp2 file
+			fprintf(pd->fp2,"%ld\n", l4); // prints l4 to fp2 file
 			pd->busy = 0;
 		}
 	}
